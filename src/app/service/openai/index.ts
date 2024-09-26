@@ -30,6 +30,7 @@ export const fetchVerifyQuestion = async (payload: any) => {
       data
     }
   } catch (err) {
+    console.log('fetchQuestion', err)
     return {
       status: false,
       err: 'Error fetching question'
