@@ -1,32 +1,19 @@
 "use client"
+import { useEffect, useState } from "react";
 
-import { useState } from "react";
+const Topics = ({ data }: any) => {
+  const [grammarRules, setGrammarRules] = useState(data)
 
-const baseArray = [
-  { id: 1, checked: true, topic: "Passive voice" },
-  { id: 2, checked: true, topic: "Reported speech" },
-  { id: 3, checked: true, topic: "First conditional" },
-  { id: 4, checked: true, topic: "Second conditional" },
-  { id: 5, checked: true, topic: "Third conditional" },
-  { id: 6, checked: true, topic: "Relative clauses" },
-]
-const getArrayFromLocalStorage = () => {
-  if (typeof window !== 'undefined') {
-    const storedArray = localStorage.getItem('grammarRules')
-    return storedArray ? JSON.parse(storedArray) : baseArray;
-  }
-  return []
-};
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('grammarRules', JSON.stringify(grammarRules));
+    }
+  }, [grammarRules])
 
-const grammarRulesSaved = getArrayFromLocalStorage()
-const Topics = () => {
-
-  const [grammarRules, setGrammarRules] = useState(baseArray)
-  console.log(grammarRules)
-  const handleCheckbox = (checked: any, id: any) => {
+  const handleCheckbox = (event: any, id: any) => {
     setGrammarRules((prevRules: any) =>
       prevRules.map((rule: any) =>
-        rule.id === id ? { ...rule, checked } : rule
+        rule.id === id ? { ...rule, checked: event.target.checked } : rule
       )
     );
   }
@@ -58,7 +45,7 @@ const Topics = () => {
               <input
                 type="checkbox"
                 checked={item.checked}
-                onChange={(checked: any) => handleCheckbox(checked, item.id)}
+                onChange={(event: any) => handleCheckbox(event, item.id)}
                 className="checkbox checkbox-sm mr-2" />
               <span>{item.topic}</span>
             </div>

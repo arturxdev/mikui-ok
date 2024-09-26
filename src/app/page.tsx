@@ -1,19 +1,7 @@
 "use client"
-import Image from "next/image";
-import { useForm } from "react-hook-form";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-
 export default function Home() {
-
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm()
-
-  const onSubmit = (data: any) => console.log(data)
 
   return (
     <div className="w-3/4 mx-auto py-4 flex flex-col justify-between min-h-screen">

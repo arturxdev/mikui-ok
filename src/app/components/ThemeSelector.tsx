@@ -1,3 +1,4 @@
+"use client"
 const ThemeSelector = () => {
   return (
     <label className="swap swap-rotate">
