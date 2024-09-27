@@ -18,13 +18,12 @@ export const fetchQuestion = async (grammarRule: string) => {
 
 export const fetchVerifyQuestion = async (payload: any) => {
   try {
-    const res = await axios.post('/api/ask', {
+    const res = await axios.post('/api/response', {
       response: payload.answer,
       question: payload.question,
       instruction: payload.instruction,
-      grammarRule: payload.topic
     });
-    const data = JSON.parse(res.data.data)
+    const data = res.data.data
     return {
       status: true,
       data
