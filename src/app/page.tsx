@@ -5,7 +5,6 @@ import { fetchQuestion, fetchVerifyQuestion } from "./service/openai";
 import { useEffect, useState } from "react";
 import { getTopics } from "./service/localStorage";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { handleClientScriptLoad } from "next/script";
 export default function Home() {
   const [situation, setSituation] = useState({
     instruction: "",
@@ -39,7 +38,6 @@ export default function Home() {
     register,
     handleSubmit,
     setValue,
-    watch,
     formState: { errors },
   } = useForm<Inputs>()
   const onSubmit: SubmitHandler<Inputs> = async (params) => {
@@ -49,7 +47,7 @@ export default function Home() {
       question: situation.question,
       instruction: situation.instruction,
     }
-    const { data, err } = await fetchVerifyQuestion(payload)
+    const { data } = await fetchVerifyQuestion(payload)
 
     setResponse({ ...data, show: true })
     console.log(response)
