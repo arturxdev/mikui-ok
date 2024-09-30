@@ -58,10 +58,10 @@ export default function Home() {
     setValue("answer", "")
   }
   return (
-    <div className="w-3/4 mx-auto py-4 flex flex-col justify-between min-h-screen">
+    <div className="md:w-4/5 lg:w-3/4  mx-auto py-4 px-4 sm:px-0 flex flex-col justify-between min-h-screen">
       <div>
         <Header />
-        <main className="mt-24">
+        <main className="lg:mt-24 mt-10">
           <p className="font-semibold text-center text-4xl mt-10">Practice your English grammar everyday</p>
           <form onSubmit={handleSubmit(onSubmit)}>
             <p className="text-center mt-16">{situation.instruction} </p>

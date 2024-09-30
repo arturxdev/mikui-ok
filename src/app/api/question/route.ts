@@ -64,10 +64,12 @@ export async function GET(request: NextRequest) {
             "type": "object",
             "properties": {
               "instruction": {
-                "type": "string"
+                "type": "string",
+                "description": "The instruction of the exercise"
               },
               "question": {
-                "type": "string"
+                "type": "string",
+                "description": "The question of the exercise"
               }
             },
             "required": [
