@@ -28,6 +28,7 @@ export default function Home() {
     console.log("Generate a random question", grammarRuleSelected.topic)
     fetchQuestion(grammarRuleSelected.topic).then(response => {
       setSituation(response.data)
+      setValue("answer", response.data.question)
     })
   }
 
@@ -64,8 +65,8 @@ export default function Home() {
         <main className="lg:mt-24 mt-10">
           <p className="font-semibold text-center text-4xl mt-10">Practice your English grammar everyday</p>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <p className="text-center mt-16">{situation.instruction} </p>
-            <p className="text-center font-semibold text-2xl">{situation.question} </p>
+            <p className="text-center mt-16 text-xl">{situation.instruction} </p>
+            {/* <p className="text-center font-semibold text-2xl">{situation.question} </p> */}
             <div className=" mt-8">
               <input type="text" {...register("answer")} placeholder="Type here" className="input input-bordered w-full" />
             </div>
