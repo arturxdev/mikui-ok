@@ -8,7 +8,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 export default function Home() {
   const [situation, setSituation] = useState({
     instruction: "",
-    question: ""
+    question: "",
+    grammarRule: ""
   })
   const [response, setResponse] = useState({
     show: false,
@@ -27,7 +28,7 @@ export default function Home() {
     const grammarRuleSelected = grammarRulesChecked[Math.floor(Math.random() * grammarRulesChecked.length)]
     console.log("Generate a random question", grammarRuleSelected.topic)
     fetchQuestion(grammarRuleSelected.topic).then(response => {
-      setSituation(response.data)
+      setSituation({ ...response.data, grammarRule: grammarRuleSelected.topic })
       setValue("answer", response.data.question)
     })
   }
@@ -79,11 +80,15 @@ export default function Home() {
             ) : null}
             {!response.show ? (
               <div className="text-center mt-4">
-                <button type="submit" className="btn btn-primary mx-auto">Verify</button>
+                <a className="link" target="_blank" href={`/learn/${situation.grammarRule.toLowerCase().split(" ").join("-")}`}>Do you wanna a clue?</a>
+                <div className="text-center mt-4">
+                  <button type="submit" className="btn btn-primary mx-auto">Verify</button>
+                </div>
               </div>
             ) : null}
             {errors.answer && <span>This field is required</span>}
           </form>
+
           {response.show ? (
             <div className="text-center mt-4">
               <button onClick={handleNextQuestion} className="btn btn-primary mx-auto">Try again</button>
