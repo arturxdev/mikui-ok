@@ -6,6 +6,7 @@ const baseArray = [
   { id: 4, checked: true, topic: "Second conditional" },
   { id: 5, checked: true, topic: "Third conditional" },
   { id: 6, checked: true, topic: "Relative clauses" },
+  { id: 7, checked: true, topic: "Verb to be" },
 ]
 export const getTopics = () => {
   if (typeof window !== 'undefined') {
