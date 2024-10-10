@@ -4,7 +4,6 @@ import "./globals.css";
 import {
   ClerkProvider,
 } from '@clerk/nextjs'
-import { NextScript } from "next/document";
 import { ThemeProvider } from "./components/ThemeContext";
 import ClientThemeWrapper from "./components/ClientThemeWrapper";
 
