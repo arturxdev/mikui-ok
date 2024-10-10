@@ -52,7 +52,6 @@ export default function Home() {
     const { data } = await fetchVerifyQuestion(payload)
 
     setResponse({ ...data, show: true })
-    console.log(response)
   }
   const handleNextQuestion = () => {
     setResponse({ show: false, isCorrect: "", explain: "", correctedVersion: "" })

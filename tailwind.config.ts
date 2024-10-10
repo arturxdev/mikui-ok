@@ -19,7 +19,7 @@ const config: Config = {
     require('@tailwindcss/typography'),
   ],
   daisyui: {
-    themes: ["retro", "dark"],
+    themes: ["retro", "dark", 'light', 'cyberpunk', 'aqua', 'synthwave', 'corporate'],
   },
 };
 export default config;
