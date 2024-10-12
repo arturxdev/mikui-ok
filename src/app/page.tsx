@@ -19,7 +19,6 @@ export default function Home() {
   })
   useEffect(() => {
     handleFecthQuestion()
-    console.log('effect')
   }, [])
 
   const handleFecthQuestion = () => {
