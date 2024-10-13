@@ -1,4 +1,4 @@
-const version = 2
+const version = 3
 const baseArray = [
   { id: 1, checked: true, topic: "Passive voice" },
   { id: 2, checked: true, topic: "Reported speech" },
@@ -7,7 +7,18 @@ const baseArray = [
   { id: 5, checked: true, topic: "Third conditional" },
   { id: 6, checked: true, topic: "Relative clauses" },
   { id: 7, checked: true, topic: "Verb to be" },
-  { id: 7, checked: true, topic: "Simple present" },
+  { id: 8, checked: true, topic: "Present simple" },
+  { id: 9, checked: true, topic: "Present perfect" },
+  { id: 9, checked: true, topic: "Present continuous" },
+  { id: 9, checked: true, topic: "Present perfect continuous" },
+  { id: 9, checked: true, topic: "Past simple" },
+  { id: 9, checked: true, topic: "Past continuous" },
+  { id: 9, checked: true, topic: "Past perfect" },
+  { id: 9, checked: true, topic: "Past perfect continuous" },
+  { id: 9, checked: true, topic: "Future simple" },
+  { id: 9, checked: true, topic: "Future continuous" },
+  { id: 9, checked: true, topic: "Future perfect" },
+  { id: 9, checked: true, topic: "Future perfect continuous" },
 ]
 export const getTopics = () => {
   if (typeof window !== 'undefined') {
