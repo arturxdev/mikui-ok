@@ -1,4 +1,4 @@
-const version = 3
+const version = 4
 const baseArray = [
   { id: 1, checked: true, topic: "Passive voice" },
   { id: 2, checked: true, topic: "Reported speech" },
