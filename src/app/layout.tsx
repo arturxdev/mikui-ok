@@ -6,6 +6,8 @@ import {
 } from '@clerk/nextjs'
 import { ThemeProvider } from "./components/ThemeContext";
 import ClientThemeWrapper from "./components/ClientThemeWrapper";
+import { PHProvider } from "./provider";
+import PostHogPageView from "./PostHogageView";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,13 +33,16 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" data-theme="retro">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} >
-          <ThemeProvider>
-            <ClientThemeWrapper>
-              {children}
-            </ClientThemeWrapper>
-          </ThemeProvider>
-        </body>
+        <PHProvider>
+          <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} >
+            <PostHogPageView />
+            <ThemeProvider>
+              <ClientThemeWrapper>
+                {children}
+              </ClientThemeWrapper>
+            </ThemeProvider>
+          </body>
+        </PHProvider>
       </html>
     </ClerkProvider>
   );
