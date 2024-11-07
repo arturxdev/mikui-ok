@@ -102,7 +102,7 @@ export default function Verb() {
             </tr>
           </thead>
           <tbody>
-            {words.map((word: any, index: number) => (
+            {words.map((word: any) => (
               <tr key={word._id}>
                 <td>{word.present}</td>
                 <td>{word.past}</td>

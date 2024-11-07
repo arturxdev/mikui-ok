@@ -1,11 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
-import Word from '../../../../models/word';
-import dbConnect from '../../../../lib/connectDB';
+import { NextResponse } from 'next/server';
+import Word from 'app/models/word';
+import dbConnect from 'app/lib/connectDB';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     await dbConnect();
-
     const count = await Word.countDocuments();
     const randomIndex = Math.floor(Math.random() * count);
     const randomWord = await Word.findOne().skip(randomIndex);
