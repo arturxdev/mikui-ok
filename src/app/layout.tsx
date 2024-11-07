@@ -4,20 +4,20 @@ import "./globals.css";
 import {
   ClerkProvider,
 } from '@clerk/nextjs'
-import { ThemeProvider } from "./components/ThemeContext";
-import ClientThemeWrapper from "./components/ClientThemeWrapper";
+import { ThemeProvider } from "../components/ThemeContext";
+import ClientThemeWrapper from "../components/ClientThemeWrapper";
 import { PHProvider } from "./provider";
 import PostHogPageView from "./PostHogageView";
 import { GoogleAnalytics } from '@next/third-parties/google'
 
 
 const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+  src: "../fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
 const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
+  src: "../fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
 });

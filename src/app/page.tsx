@@ -1,9 +1,9 @@
 "use client"
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import { fetchQuestion, fetchVerifyQuestion } from "./service/openai";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import { fetchQuestion, fetchVerifyQuestion } from "../service/openai";
 import { useEffect, useState } from "react";
-import { getTopics } from "./service/localStorage";
+import { getTopics } from "../service/localStorage";
 import { SubmitHandler, useForm } from "react-hook-form";
 export default function Home() {
   const [situation, setSituation] = useState({
