@@ -22,7 +22,7 @@ export default function Verb() {
 
   const fetchWords = async () => {
     try {
-      const response = await axios.get('/api/words');
+      const response = await axios.get(`/api/words?userId=${userId}`);
       setWords(response.data);
     } catch (error) {
       console.error('Error fetching words:', error);

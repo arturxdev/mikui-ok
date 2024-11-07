@@ -35,13 +35,18 @@ export async function GET(request: NextRequest) {
     await dbConnect();
 
     const url = new URL(request.url);
+    const userId = url.searchParams.get('userId');
+    if (!userId) {
+      return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
+    }
+
     const params = {
       limit: url.searchParams.get('limit') || '10',
       page: url.searchParams.get('page') || '0',
     };
     const { limit, page } = paginationSchema.parse(params);
 
-    const words = await Word.find({})
+    const words = await Word.find({ userId })
       .skip(page * limit)
       .limit(limit);
 

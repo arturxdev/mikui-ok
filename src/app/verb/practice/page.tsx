@@ -65,7 +65,7 @@ export default function Practice() {
           </a>
           {word ? (
             <div className="text-center">
-              <h2 className="text-2xl font-bold mb-4">Practice you vocabulary Word</h2>
+              <h2 className="text-2xl font-bold mb-4">Practice your vocabulary Word</h2>
               <p className="text-lg mb-4">Present: {word.present}</p>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className='flex justify-center'>
@@ -106,7 +106,15 @@ export default function Practice() {
               {result && <p className="mt-4 text-lg">{result} {countdown > 0 && countdown}</p>}
             </div>
           ) : (
-            <p>Loading...</p>
+            <div className="text-center mt-4">
+              <p>Add verbs to start</p>
+              <a
+               href="/verb"
+                className="btn btn-secondary mt-2"
+              >
+                Go to Verbs
+              </a>
+            </div>
           )}
         </main>
       </div>
