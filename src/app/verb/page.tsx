@@ -8,6 +8,7 @@ import { Trash } from 'lucide-react';
 
 export default function Verb() {
   const { userId } = useAuth();
+  
   const [formData, setFormData] = useState({
     present: '',
     past: '',

@@ -10,7 +10,7 @@ export const ThemeContext = createContext<ThemeContextType>({});
 
 export const ThemeProvider = ({ children }: any) => {
   const [theme, setTheme] = useState<string>(
-    () => localStorage.getItem("theme") || "light"
+    () => (typeof window !== 'undefined' ? localStorage.getItem("theme") : "light") || "light"
   );
   console.log('provider', theme)
 
