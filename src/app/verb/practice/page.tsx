@@ -19,7 +19,7 @@ export default function Practice() {
   const fetchRandomWord = async () => {
     try {
       
-      const response = await axios.get(`/api/verb/random?userId=${userId}`);
+      const response = await axios.get(`/api/words/random?userId=${userId}`);
       setWord(response.data);
       setUserInput({ past: '', participle: '' });
       setResult('');
