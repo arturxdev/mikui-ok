@@ -4,7 +4,7 @@ import Header from 'app/components/Header';
 import Footer from 'app/components/Footer';
 import axios from 'axios';
 import { Word } from 'app/entities/wordSchema';
-import { BookText, LetterText } from 'lucide-react';
+import { BookText } from 'lucide-react';
 import { useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
 export default function Practice() {
@@ -19,7 +19,6 @@ export default function Practice() {
 
     const fetchRandomWord = async () => {
         try {
-
             const response = await axios.get(`/api/words/random?userId=${userId}`);
             setWord(response.data);
             setUserInput({ past: '', participle: '' });
