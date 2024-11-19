@@ -11,7 +11,8 @@ import {
 import ThemeSwap from "./ThemeBtn"
 import { ThemeContext } from "./ThemeContext"
 import { useContext } from "react"
-import { LetterText, LogIn, Sparkle } from "lucide-react"
+import { BookText, LetterText, LogIn, Sparkle } from "lucide-react"
+import Link from "next/link"
 
 const Header = () => {
   const { changeTheme } = useContext(ThemeContext);
@@ -32,17 +33,24 @@ const Header = () => {
       </div>
       <div className="flex-none">
         <div className="dropdown dropdown-end mr-2">
-          <a href="/" className="btn btn-ghost">
-          <Sparkle />
+          <Link href="/" className="btn btn-ghost">
+            <Sparkle size={16} />
             <span className="">Grammar</span>
-          </a>
+          </Link>
         </div>
         <div className="dropdown dropdown-end mr-2">
-          <a href="/verb/practice" className="btn btn-ghost">
-            <LetterText />
+          <Link href="/verb" className="btn btn-ghost">
+            <LetterText size={16} />
             <span className="">Verbs</span>
-          </a>
+          </Link>
         </div>
+        <div className="dropdown dropdown-end mr-2">
+          <Link href="/library" className="btn btn-ghost">
+            <BookText size={16} />
+            <span className="">Library</span>
+          </Link>
+        </div>
+
         <div className="dropdown dropdown-end">
           <ThemeSwap handleOnClick={changeTheme} />
         </div>

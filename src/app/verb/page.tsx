@@ -1,128 +1,124 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import Header from 'app/components/Header';
+import Footer from 'app/components/Footer';
 import axios from 'axios';
+import { Word } from 'app/entities/wordSchema';
+import { BookText, LetterText } from 'lucide-react';
 import { useAuth } from '@clerk/nextjs';
-import { Trash } from 'lucide-react';
+import Link from 'next/link';
+export default function Practice() {
+    const [word, setWord] = useState<Word | null>(null);
+    const [userInput, setUserInput] = useState({ past: '', participle: '' });
+    const [result, setResult] = useState('');
+    const [countdown, setCountdown] = useState(3);
+    const { userId } = useAuth();
+    useEffect(() => {
+        fetchRandomWord();
+    }, []);
 
-export default function Verb() {
-  const { userId } = useAuth();
-  
-  const [formData, setFormData] = useState({
-    present: '',
-    past: '',
-    participle: '',
-  });
-  const [words, setWords] = useState([]);
+    const fetchRandomWord = async () => {
+        try {
 
-  useEffect(() => {
-    fetchWords();
-  }, []);
+            const response = await axios.get(`/api/words/random?userId=${userId}`);
+            setWord(response.data);
+            setUserInput({ past: '', participle: '' });
+            setResult('');
+            setCountdown(3);
+        } catch (error) {
+            console.error('Error fetching random word:', error);
+        }
+    };
 
-  const fetchWords = async () => {
-    try {
-      const response = await axios.get(`/api/words?userId=${userId}`);
-      setWords(response.data);
-    } catch (error) {
-      console.error('Error fetching words:', error);
-    }
-  };
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setUserInput({
+            ...userInput,
+            [e.target.name]: e.target.value,
+        });
+    };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (userInput.past === word?.past && userInput.participle === word?.participle) {
+            setResult('Correct! Next word in');
+            const interval = setInterval(() => {
+                setCountdown((prev) => {
+                    if (prev === 1) {
+                        clearInterval(interval);
+                        fetchRandomWord();
+                    }
+                    return prev - 1;
+                });
+            }, 1000);
+        } else {
+            setResult('Try again!');
+        }
+    };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      await axios.post('/api/words', { userId, ...formData });
-      setFormData({ present: '', past: '', participle: '' });
-      fetchWords(); // Refresh the list
-    } catch (error) {
-      console.error('Error adding word:', error);
-    }
-  };
+    return (
+        <div className="md:w-4/5 lg:w-3/4 mx-auto py-4 px-4 sm:px-0 flex flex-col justify-between min-h-screen">
+            <div>
+                <Header />
+                <main className="lg:mt-24 mt-10">
 
-  const handleDelete = async (id: string) => {
-    try {
-      await axios.delete('/api/words', { data: { id } });
-      fetchWords(); // Refresh the list
-    } catch (error) {
-      console.error('Error deleting word:', error);
-    }
-  };
+                    {word ? (
+                        <div className="text-center">
+                            <h2 className="text-3xl font-bold mb-4 ">Practice your verbs</h2>
+                            <p className="text-lg mb-4">Present: {word.present}</p>
+                            <form onSubmit={handleSubmit} className="space-y-4">
+                                <div className='flex justify-center'>
+                                    <div className='m-2'>
+                                        <label htmlFor="past" className="block text-sm font-medium text-gray-700">
+                                            Past
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="past"
+                                            id="past"
+                                            value={userInput.past}
+                                            onChange={handleChange}
+                                            required
+                                            className="input input-bordered w-full"
+                                        />
+                                    </div>
+                                    <div className='m-2'>
+                                        <label htmlFor="participle" className="block text-sm font-medium text-gray-700">
+                                            Participle
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="participle"
+                                            id="participle"
+                                            value={userInput.participle}
+                                            onChange={handleChange}
+                                            required
+                                            className="input input-bordered w-full"
+                                        />
+                                    </div>
+                                </div>
 
-  return (
-    <div className="md:w-4/5 lg:w-3/4 mx-auto py-4 px-4 sm:px-0 flex flex-col justify-between min-h-screen">
-      <Header />
-      <main className="flex-grow">
-        <h1 className="text-3xl font-bold text-center mb-6">Your Vocabulary</h1>
-        <form onSubmit={handleSubmit} className="flex space-x-4 mb-6">
-          <input
-            type="text"
-            name="present"
-            placeholder="Present"
-            value={formData.present}
-            onChange={handleChange}
-            required
-            className="input input-bordered w-full"
-          />
-          <input
-            type="text"
-            name="past"
-            placeholder="Past"
-            value={formData.past}
-            onChange={handleChange}
-            required
-            className="input input-bordered w-full"
-          />
-          <input
-            type="text"
-            name="participle"
-            placeholder="Past Participle"
-            value={formData.participle}
-            onChange={handleChange}
-            required
-            className="input input-bordered w-full"
-          />
-          <button type="submit" className="btn btn-primary">
-            Save
-          </button>
-        </form>
-        <table className="table w-full">
-          <thead>
-            <tr>
-              <th>Present</th>
-              <th>Past</th>
-              <th>Participle</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {words.map((word: any) => (
-              <tr key={word._id}>
-                <td>{word.present}</td>
-                <td>{word.past}</td>
-                <td>{word.participle}</td>
-                <td>
-                  <button
-                    className="btn btn-error btn-sm"
-                    onClick={() => handleDelete(word._id)}
-                  >
-                    <Trash className="w-4 h-4" />
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </main>
-      <Footer />
-    </div>
-  );
+                                <button type="submit" className="btn btn-primary">
+                                    Check
+                                </button>
+                            </form>
+                            {result && <p className="mt-4 text-lg">{result} {countdown > 0 && countdown}</p>}
+                        </div>
+                    ) : (
+                        <div className="text-center mt-4">
+                            <p className="text-3xl">To start add Verbs to your library</p>
+                            <Link
+                                href="/library"
+                                className="btn btn-secondary mt-8"
+                            >
+                                <BookText />
+                                Library
+                            </Link>
+                        </div>
+                    )}
+                </main>
+            </div>
+
+            <Footer />
+        </div>
+    );
 } 
