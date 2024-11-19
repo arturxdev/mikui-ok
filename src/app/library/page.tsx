@@ -1,20 +1,23 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import Header from 'app/components/Header';
+import Footer from 'app/components/Footer';
 import axios from 'axios';
 import { useAuth } from '@clerk/nextjs';
 import { Trash } from 'lucide-react';
+import { fetchConjugations } from '../../service/openai';
 
 export default function Verb() {
   const { userId } = useAuth();
-  
+
   const [formData, setFormData] = useState({
     present: '',
     past: '',
     participle: '',
   });
   const [words, setWords] = useState([]);
+  const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     fetchWords();
@@ -30,10 +33,33 @@ export default function Verb() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value || '' }));
+
+    if (typingTimeout) {
+      clearTimeout(typingTimeout);
+    }
+
+    setIsLoading(true);
+    setTypingTimeout(
+      setTimeout(() => {
+        if (name === 'present') {
+          fetchConjugations(value)
+            .then((conjugations) => {
+              console.log(conjugations)
+              setFormData((prev) => ({
+                ...prev,
+                past: conjugations.data.past,
+                participle: conjugations.data.participle,
+              }));
+            })
+            .catch((error) => console.error('Error fetching conjugations:', error))
+            .finally(() => setIsLoading(false));
+        } else {
+          setIsLoading(false);
+        }
+      }, 1000)
+    );
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -61,12 +87,13 @@ export default function Verb() {
       <Header />
       <main className="flex-grow">
         <h1 className="text-3xl font-bold text-center mb-6">Your Vocabulary</h1>
-        <form onSubmit={handleSubmit} className="flex space-x-4 mb-6">
+        <span className=' text-sm'>Write the verb in present tense, and we'll complete the conjugations.</span>
+        <form onSubmit={handleSubmit} className="flex space-x-4 mb-8 mt-2">
           <input
             type="text"
             name="present"
             placeholder="Present"
-            value={formData.present}
+            value={formData.present || ''}
             onChange={handleChange}
             required
             className="input input-bordered w-full"
@@ -75,7 +102,7 @@ export default function Verb() {
             type="text"
             name="past"
             placeholder="Past"
-            value={formData.past}
+            value={formData.past || ''}
             onChange={handleChange}
             required
             className="input input-bordered w-full"
@@ -84,13 +111,43 @@ export default function Verb() {
             type="text"
             name="participle"
             placeholder="Past Participle"
-            value={formData.participle}
+            value={formData.participle || ''}
             onChange={handleChange}
             required
             className="input input-bordered w-full"
           />
-          <button type="submit" className="btn btn-primary">
-            Save
+          <button
+            type="submit"
+            className={`btn btn-primary`}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <span className="flex items-center">
+                <svg
+                  className="animate-spin h-5 w-5 mr-3"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                  ></path>
+                </svg>
+                Save
+              </span>
+            ) : (
+              'Save'
+            )}
           </button>
         </form>
         <table className="table w-full">

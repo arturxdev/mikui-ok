@@ -48,7 +48,7 @@ export default function Practice() {
                     }
                     return prev - 1;
                 });
-            }, 1000);
+            }, 500);
         } else {
             setResult('Try again!');
         }

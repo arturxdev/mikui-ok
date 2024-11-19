@@ -6,8 +6,6 @@ import {
 } from '@clerk/nextjs'
 import { ThemeProvider } from "../components/ThemeContext";
 import ClientThemeWrapper from "../components/ClientThemeWrapper";
-import { PHProvider } from "./provider";
-import PostHogPageView from "./PostHogageView";
 import { GoogleAnalytics } from '@next/third-parties/google'
 
 
@@ -35,17 +33,14 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" data-theme="retro">
-        <PHProvider>
-          <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} >
-            <GoogleAnalytics gaId="G-2QPQL3Q6EW" />
-            <PostHogPageView />
-            <ThemeProvider>
-              <ClientThemeWrapper>
-                {children}
-              </ClientThemeWrapper>
-            </ThemeProvider>
-          </body>
-        </PHProvider>
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} >
+          <GoogleAnalytics gaId="G-2QPQL3Q6EW" />
+          <ThemeProvider>
+            <ClientThemeWrapper>
+              {children}
+            </ClientThemeWrapper>
+          </ThemeProvider>
+        </body>
       </html>
     </ClerkProvider>
   );

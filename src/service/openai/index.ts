@@ -38,4 +38,14 @@ export const fetchVerifyQuestion = async (payload: any) => {
 
 }
 
+export const fetchConjugations = async (verb: string) => {
+  try {
+    const response = await axios.post('/api/verb', { verb });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching conjugations:', error);
+    throw error;
+  }
+};
+
 
