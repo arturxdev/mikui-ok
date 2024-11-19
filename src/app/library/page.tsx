@@ -87,7 +87,7 @@ export default function Verb() {
       <Header />
       <main className="flex-grow">
         <h1 className="text-3xl font-bold text-center mb-6">Your Vocabulary</h1>
-        <span className=' text-sm'>Write the verb in present tense, and we'll complete the conjugations.</span>
+        <span className=' text-sm'>Write the verb in present tense, and we will complete the conjugations.</span>
         <form onSubmit={handleSubmit} className="flex space-x-4 mb-8 mt-2">
           <input
             type="text"
