@@ -4,9 +4,9 @@ import "./globals.css";
 import {
   ClerkProvider,
 } from '@clerk/nextjs'
-import { ThemeProvider } from "../components/ThemeContext";
 import ClientThemeWrapper from "../components/ClientThemeWrapper";
 import { GoogleAnalytics } from '@next/third-parties/google'
+import { LocalProvider } from "app/components/LocalStorageContext";
 
 
 const geistSans = localFont({
@@ -32,14 +32,14 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en" data-theme="retro">
+      <html lang="en" suppressHydrationWarning={true}>
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} >
           <GoogleAnalytics gaId="G-2QPQL3Q6EW" />
-          <ThemeProvider>
+          <LocalProvider>
             <ClientThemeWrapper>
               {children}
             </ClientThemeWrapper>
-          </ThemeProvider>
+          </LocalProvider>
         </body>
       </html>
     </ClerkProvider>

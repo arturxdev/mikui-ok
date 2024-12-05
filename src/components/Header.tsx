@@ -1,7 +1,6 @@
 "use client"
 import Image from "next/image"
 import Topics from "./Topics"
-import { getTopics } from "../service/localStorage"
 import {
   SignInButton,
   SignedIn,
@@ -9,13 +8,13 @@ import {
   UserButton
 } from '@clerk/nextjs'
 import ThemeSwap from "./ThemeBtn"
-import { ThemeContext } from "./ThemeContext"
 import { useContext } from "react"
 import { BookText, LetterText, LogIn, Sparkle } from "lucide-react"
 import Link from "next/link"
+import { LocalContext } from "./LocalStorageContext"
 
 const Header = () => {
-  const { changeTheme } = useContext(ThemeContext);
+  const { changeTheme } = useContext(LocalContext);
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
@@ -55,7 +54,7 @@ const Header = () => {
           <ThemeSwap handleOnClick={changeTheme} />
         </div>
         <div className="dropdown dropdown-end">
-          <Topics data={getTopics()} />
+          <Topics />
         </div>
         <div className="dropdown dropdown-end">
           <SignedOut>

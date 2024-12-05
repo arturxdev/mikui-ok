@@ -2,10 +2,11 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { fetchQuestion, fetchVerifyQuestion } from "../service/openai";
-import { useEffect, useState } from "react";
-import { getTopics } from "../service/localStorage";
+import { useContext, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { LocalContext } from "app/components/LocalStorageContext";
 export default function Home() {
+  const { topics } = useContext(LocalContext);
   const [situation, setSituation] = useState({
     instruction: "",
     question: "",
@@ -22,10 +23,11 @@ export default function Home() {
   }, [])
 
   const handleFecthQuestion = () => {
-    const grammarRulesSaved = getTopics()
+    console.log("topicsss------", topics)
+    const grammarRulesSaved = topics
     const grammarRulesChecked = grammarRulesSaved.filter((rule: any) => rule.checked)
     const grammarRuleSelected = grammarRulesChecked[Math.floor(Math.random() * grammarRulesChecked.length)]
-    console.log("Generate a random question", grammarRuleSelected.topic)
+
     fetchQuestion(grammarRuleSelected.topic).then(response => {
       setSituation({ ...response.data, grammarRule: grammarRuleSelected.topic })
       // setValue("answer", response.data.question)
